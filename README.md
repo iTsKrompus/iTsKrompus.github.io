@@ -1,1 +1,413 @@
-# iTsKrompus.github.io
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hugo Sánchez — iTsKrompus</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,300&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090c0f;
+    --bg2: #0d1117;
+    --border: #1a2332;
+    --green: #39ff14;
+    --green-dim: #1a7a06;
+    --green-glow: rgba(57,255,20,0.15);
+    --cyan: #00d4ff;
+    --amber: #ffb700;
+    --purple: #c864ff;
+    --text: #c9d1d9;
+    --text-dim: #556070;
+    --card-bg: #0d1117;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 2.5rem;
+    background: rgba(9,12,15,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--green); text-shadow: 0 0 20px var(--green); }
+  .nav-logo span { color: var(--text-dim); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 2.5rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(57,255,20,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(57,255,20,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-tag { color: var(--green); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-tag::before { content: '> '; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.5rem; color: #fff; }
+  .hero h1 .hl { color: var(--green); text-shadow: 0 0 40px rgba(57,255,20,0.35); }
+  .hero-sub { color: var(--text-dim); font-size: 0.82rem; margin-bottom: 2.5rem; max-width: 500px; }
+  .hero-sub .cursor::after { content: '█'; color: var(--green); animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3rem; }
+  .badge { padding: 0.25rem 0.75rem; border: 1px solid var(--border); border-radius: 2px; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-dim); background: rgba(255,255,255,0.02); }
+  .badge.g { border-color: var(--green-dim); color: var(--green); background: rgba(57,255,20,0.05); }
+  .badge.c { border-color: rgba(0,212,255,0.3); color: var(--cyan); background: rgba(0,212,255,0.05); }
+  .badge.a { border-color: rgba(255,183,0,0.3); color: var(--amber); background: rgba(255,183,0,0.05); }
+  .badge.p { border-color: rgba(200,100,255,0.3); color: var(--purple); background: rgba(200,100,255,0.05); }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid; cursor: pointer; transition: all 0.2s; }
+  .btn-primary { background: var(--green); color: #000; border-color: var(--green); font-weight: 700; }
+  .btn-primary:hover { background: transparent; color: var(--green); box-shadow: 0 0 20px rgba(57,255,20,0.3); }
+  .btn-secondary { background: transparent; color: var(--text-dim); border-color: var(--border); }
+  .btn-secondary:hover { border-color: var(--green-dim); color: var(--green); }
+
+  /* TERMINAL */
+  .terminal {
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    width: min(400px, 40vw);
+    background: #0a0e12; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(57,255,20,0.05);
+    display: none;
+  }
+  @media (min-width: 980px) { .terminal { display: block; } }
+  .terminal-bar { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1rem; background: #111820; border-bottom: 1px solid var(--border); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; } .dot.y { background: #ffbd2e; } .dot.g2 { background: #28ca41; }
+  .terminal-title { margin-left: auto; font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.1em; }
+  .terminal-body { padding: 1rem 1.2rem; font-size: 0.7rem; line-height: 2; }
+  .t-p { color: var(--green); } .t-path { color: var(--cyan); } .t-out { color: var(--text-dim); } .t-v { color: var(--amber); } .t-sep { border: none; border-top: 1px solid var(--border); margin: 0.4rem 0; }
+
+  /* SECTIONS */
+  section { padding: 6rem 2.5rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 0.63rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem; }
+  .section-label::before { content: '// '; color: var(--text-dim); }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; margin-bottom: 3rem; letter-spacing: -0.02em; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5px; background: var(--border); border: 1px solid var(--border); }
+  .project-card { background: var(--card-bg); padding: 2rem; position: relative; overflow: hidden; transition: background 0.3s; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--accent, var(--green)); transition: height 0.3s ease; }
+  .project-card:hover { background: #111820; }
+  .project-card:hover::before { height: 100%; }
+  .project-number { font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.15em; margin-bottom: 0.8rem; }
+  .project-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
+  .project-lang { font-size: 0.65rem; color: var(--text-dim); margin-bottom: 0.8rem; letter-spacing: 0.05em; }
+  .project-desc { font-size: 0.76rem; color: var(--text-dim); line-height: 1.75; margin-bottom: 1.4rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.4rem; }
+  .tag { font-size: 0.6rem; padding: 0.15rem 0.5rem; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tag-c { background: rgba(57,255,20,0.08); color: var(--green); }
+  .tag-java { background: rgba(255,183,0,0.08); color: var(--amber); }
+  .tag-py { background: rgba(0,212,255,0.08); color: var(--cyan); }
+  .tag-hw { background: rgba(200,100,255,0.08); color: var(--purple); }
+  .tag-misc { background: rgba(255,255,255,0.05); color: var(--text-dim); }
+  .project-link { font-size: 0.67rem; color: var(--green-dim); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .project-link:hover { color: var(--green); }
+  .project-link::after { content: ' →'; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .skill-block { background: var(--card-bg); padding: 1.5rem; }
+  .skill-block-title { font-size: 0.63rem; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .skill-list li { font-size: 0.76rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.5rem; }
+  .skill-list li::before { content: '▸'; color: var(--green-dim); font-size: 0.6rem; }
+
+  /* ABOUT */
+  #about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } .terminal { display: none !important; } }
+  .about-text p { color: var(--text-dim); font-size: 0.8rem; line-height: 1.9; margin-bottom: 1rem; }
+  .about-text p strong { color: var(--green); font-weight: 400; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .stat-block { background: var(--card-bg); padding: 1.5rem; text-align: center; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--green); display: block; line-height: 1; margin-bottom: 0.3rem; }
+  .stat-label { font-size: 0.63rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* FOOTER */
+  footer { padding: 3rem 2.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--green); font-size: 0.95rem; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { font-size: 0.68rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--green); }
+  .footer-copy { font-size: 0.63rem; color: var(--text-dim); width: 100%; text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+
+  .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s ease forwards; }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+  .fade-in:nth-child(1){animation-delay:0.1s}.fade-in:nth-child(2){animation-delay:0.2s}.fade-in:nth-child(3){animation-delay:0.3s}.fade-in:nth-child(4){animation-delay:0.4s}.fade-in:nth-child(5){animation-delay:0.5s}.fade-in:nth-child(6){animation-delay:0.6s}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Hugo Sánchez<span> / iTsKrompus</span></div>
+  <ul class="nav-links">
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="https://github.com/iTsKrompus" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="container">
+    <p class="hero-tag fade-in">Ing. Computadores · UPM</p>
+    <h1 class="fade-in">Hardware<br><span class="hl">meets</span><br>Software</h1>
+    <p class="hero-sub fade-in">
+      <span class="cursor">Firmware · Sistemas Embebidos · IoT · Robótica · Redes</span>
+    </p>
+    <div class="hero-badges fade-in">
+      <span class="badge g">C / Firmware</span>
+      <span class="badge a">Java</span>
+      <span class="badge c">Python</span>
+      <span class="badge p">VHDL</span>
+      <span class="badge">Bash</span>
+      <span class="badge g">Linux</span>
+      <span class="badge c">ROS 2</span>
+      <span class="badge">ESP32</span>
+      <span class="badge">PIC16F886</span>
+      <span class="badge p">FPGA Basys3</span>
+    </div>
+    <div class="hero-cta fade-in">
+      <a href="https://github.com/iTsKrompus" target="_blank" class="btn btn-primary">→ Ver GitHub</a>
+      <a href="#projects" class="btn btn-secondary">Explorar proyectos</a>
+    </div>
+  </div>
+
+  <div class="terminal fade-in">
+    <div class="terminal-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g2"></div>
+      <span class="terminal-title">bash — iTsKrompus@arch</span>
+    </div>
+    <div class="terminal-body">
+      <div><span class="t-p">hugo</span><span class="t-path">@arch</span> ~ $ cat info.txt</div>
+      <div class="t-out">Hugo Sánchez — Ing. Computadores (UPM)</div>
+      <hr class="t-sep">
+      <div><span class="t-p">hugo</span><span class="t-path">@arch</span> ~ $ ls repos/</div>
+      <div><span class="t-v">StudyLamp/</span><span class="t-out">        IoTGrassLamp/</span></div>
+      <div><span class="t-v">Autonomous-Driver/</span><span class="t-out">  GPS/</span></div>
+      <div><span class="t-v">POO-CLI-APP/</span></div>
+      <hr class="t-sep">
+      <div><span class="t-p">hugo</span><span class="t-path">@arch</span> ~ $ uname -a</div>
+      <div class="t-out">Linux arch 6.x.x #1 SMP PREEMPT</div>
+      <hr class="t-sep">
+      <div><span class="t-p">hugo</span><span class="t-path">@arch</span> ~ $ git log --oneline -4</div>
+      <div class="t-out">f2a1c3e Add CO2 + humidity sensors</div>
+      <div class="t-out">9b3d201 PID tuning Kp=0.004 Kd=0.004</div>
+      <div class="t-out">c8e5f4a OTA update via ThingsBoard</div>
+      <div class="t-out">1a7b902 FPGA parking I2C + PWM</div>
+      <hr class="t-sep">
+      <div><span class="t-p">hugo</span><span class="t-path">@arch</span> ~ $ <span style="color:var(--green);animation:blink 1s step-end infinite">█</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Proyectos</p>
+    <h2 class="section-title">Lo que he construido</h2>
+    <div class="projects-grid">
+
+      <!-- StudyLamp -->
+      <div class="project-card fade-in" style="--accent: var(--amber)">
+        <div class="project-number">01 / Embebido · C · PIC16F886</div>
+        <div class="project-name">StudyLamp</div>
+        <div class="project-lang">★ Proyecto más completo — todo el proceso de ingeniería</div>
+        <div class="project-desc">
+          Lámpara inteligente desarrollada desde cero: diseño hardware, PCB impresa y soldada a mano, y firmware en C sobre PIC16F886. Módulos propios para I2C, SPI, UART, PWM y ADC. Sensores de luz, ruido, temperatura, CO₂ y humedad con persistencia de configuración. Ingeniería inversa de la lámpara RGB original para integrarla con la placa propia.
+        </div>
+        <div class="project-tags">
+          <span class="tag tag-c">C</span>
+          <span class="tag tag-hw">PCB Design</span>
+          <span class="tag tag-hw">PIC16F886</span>
+          <span class="tag tag-misc">I2C · SPI · UART · PWM</span>
+          <span class="tag tag-misc">ADC</span>
+          <span class="tag tag-misc">MPLAB</span>
+        </div>
+        <a href="https://github.com/iTsKrompus/StudyLamp" target="_blank" class="project-link">Ver repositorio</a>
+      </div>
+
+      <!-- Autonomous Driver -->
+      <div class="project-card fade-in" style="--accent: var(--cyan)">
+        <div class="project-number">02 / Robótica · Python · ROS 2</div>
+        <div class="project-name">Autonomous Driver</div>
+        <div class="project-lang">37 commits · Python 100%</div>
+        <div class="project-desc">
+          Vehículo autónomo simulado en Webots con arquitectura modular de 4 nodos ROS 2. Lane keeping mediante análisis de brillo por columnas con umbral de confianza para ignorar pasos de cebra. Control PID (Kp=0.004, Kd=0.004) para corrección de dirección. Detección y clasificación de señales de tráfico con OpenCV para ajuste dinámico de velocidad.
+        </div>
+        <div class="project-tags">
+          <span class="tag tag-py">Python</span>
+          <span class="tag tag-misc">ROS 2</span>
+          <span class="tag tag-misc">Webots</span>
+          <span class="tag tag-misc">OpenCV</span>
+          <span class="tag tag-misc">PID</span>
+          <span class="tag tag-misc">Topics /cmd_vel</span>
+        </div>
+        <a href="https://github.com/iTsKrompus/Autonomous-Driver" target="_blank" class="project-link">Ver repositorio</a>
+      </div>
+
+      <!-- IoTGrassLamp -->
+      <div class="project-card fade-in" style="--accent: var(--green)">
+        <div class="project-number">03 / IoT · C · ESP32</div>
+        <div class="project-name">IoTGrassLamp</div>
+        <div class="project-lang">C 99.4% · CMake 0.6%</div>
+        <div class="project-desc">
+          Sistema de iluminación IoT para cultivo de plantas sobre ESP32. Ingeniería inversa de la lámpara original con control PWM para reemplazar su controlador por uno propio. Display OLED e interruptores para visualización y modificación del estado en tiempo real. Actualizaciones OTA y comunicación con ThingsBoard vía MQTT.
+        </div>
+        <div class="project-tags">
+          <span class="tag tag-c">C / Firmware</span>
+          <span class="tag tag-misc">ESP32</span>
+          <span class="tag tag-misc">MQTT</span>
+          <span class="tag tag-misc">ThingsBoard</span>
+          <span class="tag tag-misc">OTA</span>
+          <span class="tag tag-misc">PWM</span>
+          <span class="tag tag-misc">OLED</span>
+        </div>
+        <a href="https://github.com/iTsKrompus/IoTGrassLamp" target="_blank" class="project-link">Ver repositorio</a>
+      </div>
+
+      <!-- GPS -->
+      <div class="project-card fade-in" style="--accent: var(--cyan)">
+        <div class="project-number">04 / Software · Python</div>
+        <div class="project-name">GPS</div>
+        <div class="project-lang">Python · OpenStreetMap</div>
+        <div class="project-desc">
+          Sistema GPS funcional desarrollado sobre datos de OpenStreetMap. Implementación de algoritmos de navegación y cálculo de rutas con visualización en tiempo real.
+        </div>
+        <div class="project-tags">
+          <span class="tag tag-py">Python</span>
+          <span class="tag tag-misc">OpenStreetMap</span>
+          <span class="tag tag-misc">Navegación</span>
+        </div>
+        <a href="https://github.com/iTsKrompus/GPS" target="_blank" class="project-link">Ver repositorio</a>
+      </div>
+
+      <!-- POO CLI APP -->
+      <div class="project-card fade-in" style="--accent: var(--amber)">
+        <div class="project-number">05 / Software · Java</div>
+        <div class="project-name">POO-CLI-APP</div>
+        <div class="project-lang">Java 100% · 46 commits · Maven</div>
+        <div class="project-desc">
+          Aplicación de gestión de quedadas desarrollada en Java con enfoque en programación orientada a objetos. Arquitectura limpia con separación src/docs, gestión de dependencias con Maven y licencia MIT.
+        </div>
+        <div class="project-tags">
+          <span class="tag tag-java">Java</span>
+          <span class="tag tag-misc">OOP</span>
+          <span class="tag tag-misc">Maven</span>
+          <span class="tag tag-misc">CLI</span>
+        </div>
+        <a href="https://github.com/iTsKrompus/POO-CLI-APP" target="_blank" class="project-link">Ver repositorio</a>
+      </div>
+
+      <!-- Placeholder/GitHub -->
+      <div class="project-card fade-in" style="--accent: var(--green); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height: 240px;">
+        <div style="font-size:2rem; margin-bottom:1rem; color: var(--green-dim)">{ }</div>
+        <div class="project-name" style="margin-bottom:0.5rem">Más en GitHub</div>
+        <div class="project-desc" style="margin-bottom:1.5rem">Explora todos los repositorios y commits</div>
+        <a href="https://github.com/iTsKrompus" target="_blank" class="btn btn-secondary" style="font-size:0.68rem">github.com/iTsKrompus →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <p class="section-label">Tecnologías</p>
+    <h2 class="section-title">Stack técnico</h2>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <div class="skill-block-title">Lenguajes</div>
+        <ul class="skill-list">
+          <li>C / C++</li><li>Python</li><li>Java</li><li>VHDL</li><li>Bash</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">Embebido / HW</div>
+        <ul class="skill-list">
+          <li>ESP32 (IDF / FreeRTOS)</li><li>PIC16F886 / MPLAB</li><li>FPGA Basys 3</li><li>Diseño y soldadura PCB</li><li>I2C · SPI · UART · PWM</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">Robótica / IA</div>
+        <ul class="skill-list">
+          <li>ROS 2 (Humble)</li><li>OpenCV</li><li>Webots</li><li>Control PID</li><li>Visión artificial</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">IoT / Redes</div>
+        <ul class="skill-list">
+          <li>MQTT / ThingsBoard</li><li>OTA (ESP32)</li><li>Cisco Packet Tracer</li><li>VLANs / Subnetting</li><li>WAN / LAN</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">Entorno</div>
+        <ul class="skill-list">
+          <li>Linux (daily driver)</li><li>Git / GitHub</li><li>Make / CMake / Maven</li><li>SysML / Papyrus</li><li>Neovim</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">Sobre mí</p>
+    <h2 class="section-title">Quién soy</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Soy <strong>Hugo Sánchez</strong>, estudiante de Ingeniería de Computadores en la <strong>UPM</strong>. Me muevo con comodidad en el punto de encuentro entre hardware y software: desde diseñar y soldar mi propia PCB hasta integrar nodos ROS 2 para conducción autónoma.</p>
+        <p>Uso <strong>distribuciones de Linux</strong> como sistema operativo principal por convicción propia. La terminal, el scripting en Bash y la administración de sistemas forman parte de mi día a día, no de un curso.</p>
+        <p>Me mantengo al día de herramientas y tecnologías emergentes porque creo que la diferencia entre un buen ingeniero y uno excelente está en <strong>cómo trabaja</strong>, no solo en lo que sabe.</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-block"><span class="stat-num">5</span><span class="stat-label">Repos públicos</span></div>
+        <div class="stat-block"><span class="stat-num">5+</span><span class="stat-label">Lenguajes</span></div>
+        <div class="stat-block"><span class="stat-num">3</span><span class="stat-label">Plataformas HW</span></div>
+        <div class="stat-block"><span class="stat-num">UPM</span><span class="stat-label">Madrid</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">iTsKrompus</div>
+  <ul class="footer-links">
+    <li><a href="https://github.com/iTsKrompus" target="_blank">GitHub</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#about">Sobre mí</a></li>
+  </ul>
+  <p class="footer-copy">Hugo Sánchez · Ing. Computadores UPM · Hecho con Neovim y demasiadas horas de compilación</p>
+</footer>
+
+</body>
+</html>
+
