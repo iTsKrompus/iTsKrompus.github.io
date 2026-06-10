@@ -74,11 +74,11 @@
   .hero-sub .cursor::after { content: '█'; color: var(--green); animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
   .hero-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3rem; }
-  .badge { padding: 0.25rem 0.75rem; border: 1px solid var(--border); border-radius: 2px; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-dim); background: rgba(255,255,255,0.02); }
-  .badge.g { border-color: var(--green-dim); color: var(--green); background: rgba(57,255,20,0.05); }
-  .badge.c { border-color: rgba(0,212,255,0.3); color: var(--cyan); background: rgba(0,212,255,0.05); }
-  .badge.a { border-color: rgba(255,183,0,0.3); color: var(--amber); background: rgba(255,183,0,0.05); }
-  .badge.p { border-color: rgba(200,100,255,0.3); color: var(--purple); background: rgba(200,100,255,0.05); }
+  .hero-badges .badge { padding: 0.25rem 0.75rem; border: 1px solid var(--border); border-radius: 2px; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--text-dim); background: rgba(255,255,255,0.02); }
+  .hero-badges .badge.g { border-color: var(--green-dim); color: var(--green); background: rgba(57,255,20,0.05); }
+  .hero-badges .badge.c { border-color: rgba(0,212,255,0.3); color: var(--cyan); background: rgba(0,212,255,0.05); }
+  .hero-badges .badge.a { border-color: rgba(255,183,0,0.3); color: var(--amber); background: rgba(255,183,0,0.05); }
+  .hero-badges .badge.p { border-color: rgba(200,100,255,0.3); color: var(--purple); background: rgba(200,100,255,0.05); }
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
   .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid; cursor: pointer; transition: all 0.2s; }
   .btn-primary { background: var(--green); color: #000; border-color: var(--green); font-weight: 700; }
@@ -228,14 +228,12 @@
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="container">
     <p class="section-label">Proyectos</p>
     <h2 class="section-title">Lo que he construido</h2>
     <div class="projects-grid">
 
-      <!-- StudyLamp -->
       <div class="project-card fade-in" style="--accent: var(--amber)">
         <div class="project-number">01 / Embebido · C · PIC16F886</div>
         <div class="project-name">StudyLamp</div>
@@ -254,7 +252,6 @@
         <a href="https://github.com/iTsKrompus/StudyLamp" target="_blank" class="project-link">Ver repositorio</a>
       </div>
 
-      <!-- Autonomous Driver -->
       <div class="project-card fade-in" style="--accent: var(--cyan)">
         <div class="project-number">02 / Robótica · Python · ROS 2</div>
         <div class="project-name">Autonomous Driver</div>
@@ -273,7 +270,6 @@
         <a href="https://github.com/iTsKrompus/Autonomous-Driver" target="_blank" class="project-link">Ver repositorio</a>
       </div>
 
-      <!-- IoTGrassLamp -->
       <div class="project-card fade-in" style="--accent: var(--green)">
         <div class="project-number">03 / IoT · C · ESP32</div>
         <div class="project-name">IoTGrassLamp</div>
@@ -293,7 +289,6 @@
         <a href="https://github.com/iTsKrompus/IoTGrassLamp" target="_blank" class="project-link">Ver repositorio</a>
       </div>
 
-      <!-- GPS -->
       <div class="project-card fade-in" style="--accent: var(--cyan)">
         <div class="project-number">04 / Software · Python</div>
         <div class="project-name">GPS</div>
@@ -309,7 +304,6 @@
         <a href="https://github.com/iTsKrompus/GPS" target="_blank" class="project-link">Ver repositorio</a>
       </div>
 
-      <!-- POO CLI APP -->
       <div class="project-card fade-in" style="--accent: var(--amber)">
         <div class="project-number">05 / Software · Java</div>
         <div class="project-name">POO-CLI-APP</div>
@@ -326,19 +320,29 @@
         <a href="https://github.com/iTsKrompus/POO-CLI-APP" target="_blank" class="project-link">Ver repositorio</a>
       </div>
 
-      <!-- Placeholder/GitHub -->
-      <div class="project-card fade-in" style="--accent: var(--green); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height: 240px;">
-        <div style="font-size:2rem; margin-bottom:1rem; color: var(--green-dim)">{ }</div>
-        <div class="project-name" style="margin-bottom:0.5rem">Más en GitHub</div>
-        <div class="project-desc" style="margin-bottom:1.5rem">Explora todos los repositorios y commits</div>
-        <a href="https://github.com/iTsKrompus" target="_blank" class="btn btn-secondary" style="font-size:0.68rem">github.com/iTsKrompus →</a>
+      <div class="project-card fade-in" style="--accent: var(--purple)">
+        <div class="project-number">06 / Backend · Java · Docker</div>
+        <div class="project-name">Library Microservices</div>
+        <div class="project-lang">Java · Arquitectura Distribuida · Maven</div>
+        <div class="project-desc">
+          Sistema modular de gestión de préstamos de biblioteca diseñado bajo una arquitectura distribuidora de microservicios independientes (Book, User y Loan). Cuenta con un API Gateway centralizado mediante Spring Cloud Gateway y comunicación síncrona robusta. Despliegue containerizado integral con Docker y Docker Compose optimizando el aislamiento y la escalabilidad del stack.
+        </div>
+        <div class="project-tags">
+          <span class="tag tag-java">Java 21</span>
+          <span class="tag tag-misc">Spring Boot 3.3.x</span>
+          <span class="tag tag-misc">Spring Cloud</span>
+          <span class="tag tag-hw">Docker</span>
+          <span class="tag tag-hw">Docker Compose</span>
+          <span class="tag tag-misc">API Gateway</span>
+          <span class="tag tag-misc">JPA / H2</span>
+        </div>
+        <a href="https://github.com/iTsKrompus/library-microservice" target="_blank" class="project-link">Ver repositorio</a>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills" style="background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="container">
     <p class="section-label">Tecnologías</p>
@@ -371,14 +375,13 @@
       <div class="skill-block">
         <div class="skill-block-title">Entorno</div>
         <ul class="skill-list">
-          <li>Linux (daily driver)</li><li>Git / GitHub</li><li>Make / CMake / Maven</li><li>SysML / Papyrus</li><li>Neovim</li>
+          <li>Linux (daily driver)</li><li>Docker / Docker Compose</li><li>Git / GitHub</li><li>Make / CMake / Maven</li><li>SysML / Papyrus</li><li>Neovim</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="container">
     <p class="section-label">Sobre mí</p>
@@ -390,9 +393,9 @@
         <p>Me mantengo al día de herramientas y tecnologías emergentes porque creo que la diferencia entre un buen ingeniero y uno excelente está en <strong>cómo trabaja</strong>, no solo en lo que sabe.</p>
       </div>
       <div class="stat-grid">
-        <div class="stat-block"><span class="stat-num">5</span><span class="stat-label">Repos públicos</span></div>
+        <div class="stat-block"><span class="stat-num">6</span><span class="stat-label">Repos públicos</span></div>
         <div class="stat-block"><span class="stat-num">5+</span><span class="stat-label">Lenguajes</span></div>
-        <div class="stat-block"><span class="stat-num">3</span><span class="stat-label">Plataformas HW</span></div>
+        <div class="stat-block"><span class="stat-num">4</span><span class="stat-label">Plataformas HW</span></div>
         <div class="stat-block"><span class="stat-num">UPM</span><span class="stat-label">Madrid</span></div>
       </div>
     </div>
